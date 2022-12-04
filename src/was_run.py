@@ -2,5 +2,8 @@ class WasRun:
   def __init__(self, name: str):
     self.wasRun = None
 
-  def testMethod(self):
+  def testMethod(self) -> None:
     self.wasRun = 1
+
+  def run(self) -> None:
+    self.testMethod()
