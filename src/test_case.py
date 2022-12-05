@@ -1,3 +1,4 @@
+from test_result import TestResult
 class TestCase:
   def __init__(self, name: str) -> None:
     self.name = name
@@ -8,8 +9,9 @@ class TestCase:
   def tearDown(self):
     pass
 
-  def run(self) -> None:
+  def run(self) -> TestResult:
     self.setUp()
     method = getattr(self, self.name)
     method()
     self.tearDown()
+    return TestResult()
