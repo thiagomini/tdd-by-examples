@@ -12,5 +12,11 @@ class TestCaseTest(TestCase):
     result = sut.run()
     assert(result.summary() == '1 run, 0 failed')
 
+  def testFailedResult(self):
+    sut = WasRun("testBrokenMethod")
+    result = sut.run()
+    assert(result.summary() == '1 run, 1 failed')
+
 TestCaseTest("testSetUp").run()
 TestCaseTest("testResult").run()
+TestCaseTest("testFailedResult").run()
