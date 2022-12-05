@@ -1,21 +1,27 @@
 from test_case import TestCase
+from test_result import TestResult
+from test_suite import TestSuite
 from was_run import WasRun
 
 class TestCaseTest(TestCase):
   def testSetUp(self):
     sut = WasRun("testMethod")
-    sut.run()
+    testResult = TestResult()
+    sut.run(testResult)
     assert(sut.methodCalls == ['setUp', 'testMethod', 'tearDown'])
 
   def testResult(self):
     sut = WasRun("testMethod")
-    result = sut.run()
-    assert(result.summary() == '1 run, 0 failed')
+    testResult = TestResult()
+    sut.run(testResult)
+    assert(testResult.summary() == '1 run, 0 failed')
 
   def testFailedResult(self):
     sut = WasRun("testBrokenMethod")
-    result = sut.run()
-    assert(result.summary() == '1 run, 1 failed')
+    testResult = TestResult()
+
+    sut.run(testResult)
+    assert(testResult.summary() == '1 run, 1 failed')
 
   def testFailedSetup(self):
     class TestWithBrokenSetup(TestCase):
@@ -29,18 +35,35 @@ class TestCaseTest(TestCase):
         pass
 
     sut = TestWithBrokenSetup('testMethod')
+    testResult = TestResult()
 
     try:
-      result = sut.run()
+      sut.run(testResult)
     except Exception:
       raise AssertionError('Should not have raised exception')
 
-    assert(result.summary() == '1 run, 1 failed')
+    assert(testResult.summary() == '1 run, 1 failed')
+
+  def testSuite(self):
+    suite = TestSuite()
+    suite.add(WasRun('testMethod'))
+    suite.add(WasRun('testBrokenMethod'))
+
+    testResult = TestResult()
+    suite.run(testResult)
+    assert(testResult.summary() == "2 run, 1 failed")
 
 
 
+suite = TestSuite()
+suite.add(TestCaseTest("testSetUp"))
+suite.add(TestCaseTest("testResult"))
+suite.add(TestCaseTest("testFailedResult"))
+suite.add(TestCaseTest("testFailedSetup"))
+suite.add(TestCaseTest("testSuite"))
 
-TestCaseTest("testSetUp").run()
-TestCaseTest("testResult").run()
-TestCaseTest("testFailedResult").run()
-TestCaseTest("testFailedSetup").run()
+result = TestResult()
+
+suite.run(result)
+
+assert(result.summary() == '5 run, 0 failed')
