@@ -13,9 +13,10 @@ class TestCase:
     testResult = TestResult()
     testResult.testStarted()
 
-    self.setUp()
-    method = getattr(self, self.name)
+
     try:
+      self.setUp()
+      method = getattr(self, self.name)
       method()
     except AssertionError as exception:
       raise exception
