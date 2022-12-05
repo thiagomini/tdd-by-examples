@@ -5,6 +5,6 @@ class TestCaseTest(TestCase):
   def testSetUp(self):
     sut = WasRun("testMethod")
     sut.run()
-    assert(sut.methodCalls == ['setUp', 'testMethod'])
+    assert(sut.methodCalls == ['setUp', 'testMethod', 'tearDown'])
 
 TestCaseTest("testSetUp").run()

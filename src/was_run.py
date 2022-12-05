@@ -12,3 +12,6 @@ class WasRun(TestCase):
   def setUp(self):
     self.wasRun = False
     self.methodCalls.append('setUp')
+
+  def tearDown(self):
+    self.methodCalls.append('tearDown')
