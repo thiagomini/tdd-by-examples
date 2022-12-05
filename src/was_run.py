@@ -6,6 +6,7 @@ class WasRun(TestCase):
     super().__init__(name)
 
   def testMethod(self) -> None:
+    self.methodCalls.append('testMethod')
     self.wasRun = 1
 
   def setUp(self):
