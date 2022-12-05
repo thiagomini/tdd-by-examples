@@ -4,7 +4,7 @@
 - ~~Invove setUp first~~
 - ~~Invove tearDown afterward~~
 - ~~Invove tearDown even if the test method fails~~
-- Run multiple tests
+- ~~Run multiple tests~~
 - ~~Report collected results~~
 - ~~Store method calls in WasRun~~
 - ~~Catch and report setUp errors~~
