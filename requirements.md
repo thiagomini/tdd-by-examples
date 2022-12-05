@@ -8,3 +8,4 @@
 - ~~Report collected results~~
 - ~~Store method calls in WasRun~~
 - ~~Catch and report setUp errors~~
+- Create a TestSuite from a test class
