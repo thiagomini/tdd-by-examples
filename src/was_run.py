@@ -2,7 +2,7 @@ from test_case import TestCase
 class WasRun(TestCase):
   def __init__(self, name: str):
     self.wasRun: bool = None
-    self.wasSetup: bool = None
+    self.methodCalls = []
     super().__init__(name)
 
   def testMethod(self) -> None:
@@ -10,4 +10,4 @@ class WasRun(TestCase):
 
   def setUp(self):
     self.wasRun = False
-    self.wasSetup = 1
+    self.methodCalls.append('setUp')

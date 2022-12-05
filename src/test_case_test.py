@@ -11,7 +11,7 @@ class TestCaseTest(TestCase):
 
   def testSetUp(self):
     self.sut.run()
-    assert(self.sut.wasSetup)
+    assert(self.sut.methodCalls == ['setUp'])
 
 TestCaseTest("testRunning").run()
 TestCaseTest("testSetUp").run()
