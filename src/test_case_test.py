@@ -3,56 +3,56 @@ from test_result import TestResult
 from test_suite import TestSuite
 from was_run import WasRun
 
+
 class TestCaseTest(TestCase):
-  def testSetUp(self):
-    sut = WasRun("testMethod")
-    testResult = TestResult()
-    sut.run(testResult)
-    assert(sut.methodCalls == ['setUp', 'testMethod', 'tearDown'])
+    def testSetUp(self):
+        sut = WasRun("testMethod")
+        testResult = TestResult()
+        sut.run(testResult)
+        assert (sut.methodCalls == ['setUp', 'testMethod', 'tearDown'])
 
-  def testResult(self):
-    sut = WasRun("testMethod")
-    testResult = TestResult()
-    sut.run(testResult)
-    assert(testResult.summary() == '1 run, 0 failed')
+    def testResult(self):
+        sut = WasRun("testMethod")
+        testResult = TestResult()
+        sut.run(testResult)
+        assert (testResult.summary() == '1 run, 0 failed')
 
-  def testFailedResult(self):
-    sut = WasRun("testBrokenMethod")
-    testResult = TestResult()
+    def testFailedResult(self):
+        sut = WasRun("testBrokenMethod")
+        testResult = TestResult()
 
-    sut.run(testResult)
-    assert(testResult.summary() == '1 run, 1 failed')
+        sut.run(testResult)
+        assert (testResult.summary() == '1 run, 1 failed')
 
-  def testFailedSetup(self):
-    class TestWithBrokenSetup(TestCase):
-      def __init__(self, name: str):
-        super().__init__(name)
+    def testFailedSetup(self):
+        class TestWithBrokenSetup(TestCase):
+            def __init__(self, name: str):
+                super().__init__(name)
 
-      def setUp(self):
-        raise Exception
+            def setUp(self):
+                raise Exception
 
-      def testMethod(self):
-        pass
+            def testMethod(self):
+                pass
 
-    sut = TestWithBrokenSetup('testMethod')
-    testResult = TestResult()
+        sut = TestWithBrokenSetup('testMethod')
+        testResult = TestResult()
 
-    try:
-      sut.run(testResult)
-    except Exception:
-      raise AssertionError('Should not have raised exception')
+        try:
+            sut.run(testResult)
+        except Exception:
+            raise AssertionError('Should not have raised exception')
 
-    assert(testResult.summary() == '1 run, 1 failed')
+        assert (testResult.summary() == '1 run, 1 failed')
 
-  def testSuite(self):
-    suite = TestSuite()
-    suite.add(WasRun('testMethod'))
-    suite.add(WasRun('testBrokenMethod'))
+    def testSuite(self):
+        suite = TestSuite()
+        suite.add(WasRun('testMethod'))
+        suite.add(WasRun('testBrokenMethod'))
 
-    testResult = TestResult()
-    suite.run(testResult)
-    assert(testResult.summary() == "2 run, 1 failed")
-
+        testResult = TestResult()
+        suite.run(testResult)
+        assert (testResult.summary() == "2 run, 1 failed")
 
 
 suite = TestSuite()
@@ -66,4 +66,4 @@ result = TestResult()
 
 suite.run(result)
 
-assert(result.summary() == '5 run, 0 failed')
+assert (result.summary() == '5 run, 0 failed')
