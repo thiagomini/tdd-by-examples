@@ -7,4 +7,4 @@
 - Run multiple tests
 - ~~Report collected results~~
 - ~~Store method calls in WasRun~~
-- Catch and report setUp errors
+- ~~Catch and report setUp errors~~
