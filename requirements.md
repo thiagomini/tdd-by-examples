@@ -5,5 +5,5 @@
 - ~~Invove tearDown afterward~~
 - ~~Invove tearDown even if the test method fails~~
 - Run multiple tests
-- Report collected results
+- ~~Report collected results~~
 - ~~Store method calls in WasRun~~
