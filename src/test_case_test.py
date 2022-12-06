@@ -5,24 +5,24 @@ from was_run import WasRun
 
 
 class TestCaseTest(TestCase):
+
+    def setUp(self):
+        self.result = TestResult()
+
     def testSetUp(self):
         sut = WasRun("testMethod")
-        testResult = TestResult()
-        sut.run(testResult)
+        sut.run(self.result)
         assert (sut.methodCalls == ['setUp', 'testMethod', 'tearDown'])
 
     def testResult(self):
         sut = WasRun("testMethod")
-        testResult = TestResult()
-        sut.run(testResult)
-        assert (testResult.summary() == '1 run, 0 failed')
+        sut.run(self.result)
+        assert (self.result.summary() == '1 run, 0 failed')
 
     def testFailedResult(self):
         sut = WasRun("testBrokenMethod")
-        testResult = TestResult()
-
-        sut.run(testResult)
-        assert (testResult.summary() == '1 run, 1 failed')
+        sut.run(self.result)
+        assert (self.result.summary() == '1 run, 1 failed')
 
     def testFailedSetup(self):
         class TestWithBrokenSetup(TestCase):
@@ -36,23 +36,21 @@ class TestCaseTest(TestCase):
                 pass
 
         sut = TestWithBrokenSetup('testMethod')
-        testResult = TestResult()
 
         try:
-            sut.run(testResult)
+            sut.run(self.result)
         except Exception:
             raise AssertionError('Should not have raised exception')
 
-        assert (testResult.summary() == '1 run, 1 failed')
+        assert (self.result.summary() == '1 run, 1 failed')
 
     def testSuite(self):
         suite = TestSuite()
         suite.add(WasRun('testMethod'))
         suite.add(WasRun('testBrokenMethod'))
 
-        testResult = TestResult()
-        suite.run(testResult)
-        assert (testResult.summary() == "2 run, 1 failed")
+        suite.run(self.result)
+        assert (self.result.summary() == "2 run, 1 failed")
 
 
 suite = TestSuite()
@@ -66,4 +64,7 @@ result = TestResult()
 
 suite.run(result)
 
-assert (result.summary() == '5 run, 0 failed')
+testSummary = result.summary()
+
+print(testSummary)
+assert (testSummary == '5 run, 0 failed')
